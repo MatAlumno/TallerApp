@@ -62,7 +62,7 @@ class Pagina_Cliente:
         self.dni = ft.TextField(label="DNI", width=300)
         self.nombre = ft.TextField(label="Nombre", width=300)
         self.apellido = ft.TextField(label="Apellido", width=300)
-        self.fecha_registro = ft.TextField(label="Fecha de Registro", width=300)
+        self.fecha_registro = ft.TextField(label="Fecha de Registro YYYY-MM-DD", width=300)
 
         guardar_btn = ft.ElevatedButton("Guardar", on_click=self.guardar_cliente)
         volver_btn = ft.ElevatedButton("Volver", on_click=self.volver_al_menu)
@@ -95,10 +95,12 @@ class Pagina_Cliente:
                 (self.dni.value, self.fecha_registro.value)
             )
             self.connection.commit()
+            print("Cliente guardado correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Cliente guardado correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_cliente()
         except Exception as ex:
+            print(f"Error al guardar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al guardar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
@@ -107,6 +109,7 @@ class Pagina_Cliente:
         self.mostrar_cliente()
 
     def imprimir_clientes(self, e):
+        print("Función de impresión no implementada")
         self.page.snack_bar = ft.SnackBar(ft.Text("Función de impresión no implementada"))
         self.page.snack_bar.open = True
         self.page.update()
@@ -180,10 +183,12 @@ class Pagina_Cliente:
         try:
             self.cursor.execute("DELETE FROM cliente WHERE id_cliente=%s", (cliente[0],))
             self.connection.commit()
+            print("Cliente eliminado correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Cliente eliminado correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_cliente()
         except Exception as ex:
+            print(f"Error al eliminar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al eliminar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
@@ -226,10 +231,12 @@ class Pagina_Cliente:
                 (self.fecha_registro.value, cliente[0])
             )
             self.connection.commit()
+            print("Cliente actualizado correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Cliente actualizado correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_cliente()
         except Exception as ex:
+            print(f"Error al actualizar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al actualizar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()

@@ -69,10 +69,12 @@ class Pagina_Repuesto:
                 (self.nombre.value, self.descripcion.value, self.precio.value, self.stock.value, self.id_proveedor.value)
             )
             self.connection.commit()
+            print("Repuesto guardado correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Repuesto guardado correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_repuesto()
         except Exception as ex:
+            print(f"Error al guardar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al guardar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
@@ -127,10 +129,12 @@ class Pagina_Repuesto:
         try:
             self.cursor.execute("DELETE FROM repuesto WHERE id_repuesto=%s", (r[0],))
             self.connection.commit()
+            print("Repuesto eliminado correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Repuesto eliminado correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_repuesto()
         except Exception as ex:
+            print(f"Error al eliminar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al eliminar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
@@ -160,10 +164,12 @@ class Pagina_Repuesto:
                 (self.nombre.value, self.descripcion.value, self.precio.value, self.stock.value, self.id_proveedor.value, self.id_repuesto.value)
             )
             self.connection.commit()
+            print("Repuesto actualizado correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Repuesto actualizado correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_repuesto()
         except Exception as ex:
+            print(f"Error al actualizar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al actualizar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
@@ -176,6 +182,7 @@ class Pagina_Repuesto:
         self.page.add(ft.ElevatedButton("Volver", on_click=self.volver_al_menu))
 
     def imprimir_repuestos(self, e):
+        print("Función de impresión no implementada")
         self.page.snack_bar = ft.SnackBar(ft.Text("Función de impresión no implementada"))
         self.page.snack_bar.open = True
         self.page.update()

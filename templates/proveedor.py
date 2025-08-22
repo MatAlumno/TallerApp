@@ -65,10 +65,12 @@ class Pagina_Proveedor:
                 (self.dni.value, self.nombre_empresa.value)
             )
             self.connection.commit()
+            print("Proveedor guardado correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Proveedor guardado correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_proveedor()
         except Exception as ex:
+            print(f"Error al guardar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al guardar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
@@ -120,10 +122,12 @@ class Pagina_Proveedor:
         try:
             self.cursor.execute("DELETE FROM proveedor WHERE id_proveedor=%s", (p[0],))
             self.connection.commit()
+            print("Proveedor eliminado correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Proveedor eliminado correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_proveedor()
         except Exception as ex:
+            print(f"Error al eliminar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al eliminar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
@@ -150,10 +154,12 @@ class Pagina_Proveedor:
                 (self.dni.value, self.nombre_empresa.value, self.id_proveedor.value)
             )
             self.connection.commit()
+            print("Proveedor actualizado correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Proveedor actualizado correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_proveedor()
         except Exception as ex:
+            print(f"Error al actualizar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al actualizar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
@@ -166,6 +172,7 @@ class Pagina_Proveedor:
         self.page.add(ft.ElevatedButton("Volver", on_click=self.volver_al_menu))
 
     def imprimir_proveedores(self, e):
+        print("Función de impresión no implementada")
         self.page.snack_bar = ft.SnackBar(ft.Text("Función de impresión no implementada"))
         self.page.snack_bar.open = True
         self.page.update()

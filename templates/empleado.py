@@ -83,10 +83,12 @@ class Pagina_Empleado:
                 (self.dni.value, self.puesto.value, self.salario.value, self.fecha_contratacion.value)
             )
             self.connection.commit()
+            print("Empleado guardado correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Empleado guardado correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_empleado()
         except Exception as ex:
+            print(f"Error al guardar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al guardar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
@@ -177,10 +179,12 @@ class Pagina_Empleado:
             self.cursor.execute("DELETE FROM empleado WHERE id_empleado=%s", (id_empleado,))
             self.cursor.execute("DELETE FROM persona WHERE dni=%s", (dni,))
             self.connection.commit()
+            print("Empleado eliminado correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Empleado eliminado correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_empleado()
         except Exception as ex:
+            print(f"Error al eliminar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al eliminar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
@@ -195,7 +199,7 @@ class Pagina_Empleado:
         self.telefono = ft.TextField(label="Teléfono", value=emp[5], width=300)
         self.puesto = ft.TextField(label="Puesto", value=emp[6], width=300)
         self.salario = ft.TextField(label="Salario", value=str(emp[7]), width=300)
-        self.fecha_contratacion = ft.TextField(label="Fecha Contratación", value=str(emp[8]), width=300)
+        self.fecha_contratacion = ft.TextField(label="Fecha Contratación YYYY-MM-DD", value=str(emp[8]), width=300)
 
         guardar_btn = ft.ElevatedButton("Guardar Cambios", on_click=lambda e: self.guardar_cambios_empleado(e, emp))
         volver_btn = ft.ElevatedButton("Volver", on_click=self.mostrar_empleado)
@@ -217,10 +221,12 @@ class Pagina_Empleado:
                 (self.puesto.value, self.salario.value, self.fecha_contratacion.value, emp[0])
             )
             self.connection.commit()
+            print("Empleado actualizado correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Empleado actualizado correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_empleado()
         except Exception as ex:
+            print(f"Error al actualizar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al actualizar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
@@ -234,10 +240,12 @@ class Pagina_Empleado:
 
     def imprimir_empleados(self, e):
         try:
+            print("Función de impresión no implementada")
             self.page.snack_bar = ft.SnackBar(ft.Text("Función de impresión no implementada"))
             self.page.snack_bar.open = True
             self.page.update()
         except Exception as ex:
+            print(f"Error al imprimir: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al imprimir: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()

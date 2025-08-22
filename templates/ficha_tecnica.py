@@ -77,10 +77,12 @@ class Pagina_FichaTecnica:
                  self.anio.value, self.numero_chasis.value, self.numero_motor.value)
             )
             self.connection.commit()
+            print("Ficha técnica guardada correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Ficha técnica guardada correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_ficha_tecnica()
         except Exception as ex:
+            print(f"Error al guardar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al guardar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
@@ -169,10 +171,12 @@ class Pagina_FichaTecnica:
         try:
             self.cursor.execute("DELETE FROM ficha_tecnica WHERE id_ficha=%s", (ficha[0],))
             self.connection.commit()
+            print("Ficha técnica eliminada correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Ficha técnica eliminada correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_ficha_tecnica()
         except Exception as ex:
+            print(f"Error al eliminar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al eliminar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
@@ -204,10 +208,12 @@ class Pagina_FichaTecnica:
                 )
             )
             self.connection.commit()
+            print("Ficha técnica actualizada correctamente")
             self.page.snack_bar = ft.SnackBar(ft.Text("Ficha técnica actualizada correctamente"))
             self.page.snack_bar.open = True
             self.mostrar_ficha_tecnica()
         except Exception as ex:
+            print(f"Error al actualizar: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al actualizar: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
@@ -221,10 +227,12 @@ class Pagina_FichaTecnica:
 
     def imprimir_fichas_tecnicas(self, e):
         try:
+            print("Función de impresión no implementada aún")
             self.page.snack_bar = ft.SnackBar(ft.Text("Función de impresión no implementada aún"))
             self.page.snack_bar.open = True
             self.page.update()
         except Exception as ex:
+            print(f"Error al imprimir: {ex}")
             self.page.snack_bar = ft.SnackBar(ft.Text(f"Error al imprimir: {ex}"))
             self.page.snack_bar.open = True
             self.page.update()
