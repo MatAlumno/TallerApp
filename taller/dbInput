@@ -1,0 +1,106 @@
+
+-- schema.sql
+-- Esquema revisado para Taller_Mecanico
+CREATE DATABASE IF NOT EXISTS `Taller_Mecanico` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `Taller_Mecanico`;
+
+DROP TABLE IF EXISTS detalle_presupuesto;
+DROP TABLE IF EXISTS presupuesto;
+DROP TABLE IF EXISTS ficha_tecnica;
+DROP TABLE IF EXISTS repuesto;
+DROP TABLE IF EXISTS proveedor;
+DROP TABLE IF EXISTS empleado;
+DROP TABLE IF EXISTS cliente;
+DROP TABLE IF EXISTS usuario;
+DROP TABLE IF EXISTS persona;
+
+CREATE TABLE persona (
+  dni INT NOT NULL,
+  nombre VARCHAR(100) NOT NULL,
+  apellido VARCHAR(100) NOT NULL,
+  direccion VARCHAR(200),
+  telefono VARCHAR(20),
+  PRIMARY KEY (dni)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE cliente (
+  id_cliente INT NOT NULL AUTO_INCREMENT,
+  dni INT NOT NULL,
+  fecha_registro DATE NOT NULL DEFAULT (CURDATE()),
+  PRIMARY KEY (id_cliente),
+  UNIQUE KEY (dni),
+  CONSTRAINT cliente_persona_fk FOREIGN KEY (dni) REFERENCES persona(dni) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE empleado (
+  id_empleado INT NOT NULL AUTO_INCREMENT,
+  dni INT NOT NULL,
+  puesto VARCHAR(100),
+  salario DECIMAL(10,2),
+  fecha_contratacion DATE NOT NULL DEFAULT (CURDATE()),
+  PRIMARY KEY (id_empleado),
+  CONSTRAINT empleado_persona_fk FOREIGN KEY (dni) REFERENCES persona(dni) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE proveedor (
+  id_proveedor INT NOT NULL AUTO_INCREMENT,
+  dni INT,
+  nombre_empresa VARCHAR(150),
+  PRIMARY KEY (id_proveedor),
+  CONSTRAINT proveedor_persona_fk FOREIGN KEY (dni) REFERENCES persona(dni) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE repuesto (
+  id_repuesto INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(150) NOT NULL,
+  descripcion TEXT,
+  precio DECIMAL(10,2) NOT NULL,
+  stock INT DEFAULT 0,
+  id_proveedor INT,
+  PRIMARY KEY (id_repuesto),
+  CONSTRAINT repuesto_proveedor_fk FOREIGN KEY (id_proveedor) REFERENCES proveedor(id_proveedor) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE ficha_tecnica (
+  id_ficha INT NOT NULL AUTO_INCREMENT,
+  id_cliente INT,
+  marca VARCHAR(100),
+  modelo VARCHAR(100),
+  anio INT,
+  numero_chasis VARCHAR(50),
+  numero_motor VARCHAR(50),
+  PRIMARY KEY (id_ficha),
+  CONSTRAINT ficha_cliente_fk FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE presupuesto (
+  id_presupuesto INT NOT NULL AUTO_INCREMENT,
+  id_ficha INT,
+  fecha DATE NOT NULL DEFAULT (CURDATE()),
+  total DECIMAL(10,2),
+  PRIMARY KEY (id_presupuesto),
+  CONSTRAINT presupuesto_ficha_fk FOREIGN KEY (id_ficha) REFERENCES ficha_tecnica(id_ficha) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE detalle_presupuesto (
+  id_detalle INT NOT NULL AUTO_INCREMENT,
+  id_presupuesto INT,
+  id_repuesto INT,
+  cantidad INT,
+  precio_unitario DECIMAL(10,2),
+  PRIMARY KEY (id_detalle),
+  CONSTRAINT detalle_presupuesto_pres_fk FOREIGN KEY (id_presupuesto) REFERENCES presupuesto(id_presupuesto) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT detalle_presupuesto_rep_fk FOREIGN KEY (id_repuesto) REFERENCES repuesto(id_repuesto) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE usuario (
+  id_usuario INT NOT NULL AUTO_INCREMENT,
+  username VARCHAR(50) NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  rol ENUM('admin','empleado') DEFAULT 'empleado',
+  dni INT,
+  PRIMARY KEY (id_usuario),
+  UNIQUE KEY (username),
+  CONSTRAINT usuario_persona_fk FOREIGN KEY (dni) REFERENCES persona(dni) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
